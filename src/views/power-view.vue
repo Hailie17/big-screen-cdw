@@ -1,10 +1,14 @@
-<script setup></script>
+<script setup>
+import PieChart from "@/components/pie-chart.vue";
+</script>
 
 <template>
   <main class="screen-bg">
     <div class="header"></div>
 
-    <div class="left-top"></div>
+    <div class="left-top">
+      <pie-chart />
+    </div>
     <div class="left-bottom"></div>
 
     <div class="right-top"></div>
