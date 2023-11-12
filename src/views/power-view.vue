@@ -1,5 +1,27 @@
 <script setup>
 import PieChart from "@/components/pie-chart.vue";
+import BarEcharts from "@/components/bar-echarts.vue";
+import LineEcharts from "@/components/line-echarts.vue";
+import { getPowerScreenData } from "@/services";
+import {
+  chargingPileData,
+  processMonitoringData,
+  chargingStatisticsData,
+  exceptionMonitoringData,
+} from "./config/home-data";
+import { ref } from "vue";
+
+let chargingPile = ref(chargingPileData);
+let processMonitoring = ref(processMonitoringData);
+let chargingStatistics = ref(chargingStatisticsData);
+let exceptionMonitoring = ref(exceptionMonitoringData);
+
+getPowerScreenData().then((res) => {
+  chargingPile.value = res.data.chargingPile.data;
+  processMonitoring.value = res.data.processMonitoring.data;
+  chargingStatistics.value = res.data.chargingStatistics.data;
+  exceptionMonitoring.value = res.data.exceptionMonitoring.data;
+});
 </script>
 
 <template>
@@ -9,9 +31,13 @@ import PieChart from "@/components/pie-chart.vue";
     <div class="left-top">
       <pie-chart />
     </div>
-    <div class="left-bottom"></div>
+    <div class="left-bottom">
+      <bar-echarts />
+    </div>
 
-    <div class="right-top"></div>
+    <div class="right-top">
+      <line-echarts />
+    </div>
     <div class="right-center"></div>
     <div class="right-bottom"></div>
 
