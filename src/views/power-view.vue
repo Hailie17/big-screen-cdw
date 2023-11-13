@@ -4,12 +4,16 @@ import BarEcharts from "@/components/bar-echarts.vue";
 import LineEcharts from "@/components/line-echarts.vue";
 import RightBottomSvg from "@/components/right-bottom-svg.vue";
 import CenterSvg from "@/components/center-svg.vue";
+import BottomPanel from "@/components/bottom-panel.vue";
+import RightTopPanel from "@/components/right-top-panel.vue";
 import { getPowerScreenData } from "@/services";
 import {
   chargingPileData,
   processMonitoringData,
   chargingStatisticsData,
   exceptionMonitoringData,
+  dataAnalysisData,
+  chargingTop4Data
 } from "./config/home-data";
 import { ref } from "vue";
 
@@ -17,12 +21,18 @@ let chargingPile = ref(chargingPileData);
 let processMonitoring = ref(processMonitoringData);
 let chargingStatistics = ref(chargingStatisticsData);
 let exceptionMonitoring = ref(exceptionMonitoringData);
+let dataAnalysis = ref(dataAnalysisData)
+let chargingTop4 = ref(chargingTop4Data)
+let percentage = ref(0)
 
 getPowerScreenData().then((res) => {
   chargingPile.value = res.data.chargingPile.data;
   processMonitoring.value = res.data.processMonitoring.data;
   chargingStatistics.value = res.data.chargingStatistics.data;
   exceptionMonitoring.value = res.data.exceptionMonitoring.data;
+  dataAnalysis.value = res.data.dataAnalysis.data;
+  chargingTop4.value = res.data.chargingTop4.data
+  percentage.value = res.data.chargingTop4.totalPercentage
 });
 </script>
 
@@ -38,7 +48,7 @@ getPowerScreenData().then((res) => {
     </div>
 
     <div class="right-top">
-      <bar-echarts />
+      <right-top-panel :panelItems="chargingTop4" :percentage="percentage" />
     </div>
     <div class="right-center">
       <bar-echarts :echartDatas="chargingStatistics" />
@@ -50,7 +60,9 @@ getPowerScreenData().then((res) => {
     <div class="center">
       <center-svg />
     </div>
-    <div class="bottom"></div>
+    <div class="bottom">
+      <bottom-panel :panelItems="dataAnalysis" />
+    </div>
   </main>
 </template>
 
