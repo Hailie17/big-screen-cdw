@@ -2,6 +2,8 @@
 import PieChart from "@/components/pie-chart.vue";
 import BarEcharts from "@/components/bar-echarts.vue";
 import LineEcharts from "@/components/line-echarts.vue";
+import RightBottomSvg from "@/components/right-bottom-svg.vue";
+import CenterSvg from "@/components/center-svg.vue";
 import { getPowerScreenData } from "@/services";
 import {
   chargingPileData,
@@ -29,19 +31,25 @@ getPowerScreenData().then((res) => {
     <div class="header"></div>
 
     <div class="left-top">
-      <pie-chart />
+      <pie-chart :echartDatas="chargingPile" />
     </div>
     <div class="left-bottom">
-      <bar-echarts />
+      <line-echarts :echartDatas="processMonitoring" />
     </div>
 
     <div class="right-top">
-      <line-echarts />
+      <bar-echarts />
     </div>
-    <div class="right-center"></div>
-    <div class="right-bottom"></div>
+    <div class="right-center">
+      <bar-echarts :echartDatas="chargingStatistics" />
+    </div>
+    <div class="right-bottom">
+      <right-bottom-svg :dots="exceptionMonitoring"></right-bottom-svg>
+    </div>
 
-    <div class="center"></div>
+    <div class="center">
+      <center-svg />
+    </div>
     <div class="bottom"></div>
   </main>
 </template>
